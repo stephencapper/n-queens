@@ -16,7 +16,26 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var board = new Board({'n': n});
+  var solution = board
+
+  // One function that solves at a node or checks at a node - this function is hasAnyRooksConflicts
+  // One function that iterates through the given trees, with the ability to stop if there is a conflict
+    //Given previous board state and row counter
+    //Iterating n times with var i
+      //Make a copy of the previous board
+      //add a 1 at the ith column index of next row
+      //check for conflicts
+        //if so end this branch (i.e. return / return something)
+      //check if we are in the final row
+        //if so pass copy of Board to solution or return as solution
+      //otherwise (not in final row)
+        //call this function on the copied board and updated row counter
+
+
+  var helper = function () {
+
+  }
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;

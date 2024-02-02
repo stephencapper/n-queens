@@ -209,10 +209,25 @@
         }
       }
       return false; // fixme
-    }
+    },
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
+    // iterate through board using a conflictFunction to check for solutions and return callback
+    higherOrderSolution: function (n, row, conflictFunction, callback) {
+      if (row === n) {
+        return callback();
+      }
+      for (var i = 0; i < n; i++) {
+        this.togglePiece(row, i);
+        if (!conflictFunction.call(this, row, i)) {
+          if (this.higherOrderSolution(n, row + 1, conflictFunction, callback)) {
+            return true;
+          }
+        }
+        this.togglePiece(row, i);
+      }
+    }
 
   });
 

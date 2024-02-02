@@ -15,7 +15,7 @@
 
 window.findNRooksSolution = function(n) {
   var solution = new Board({'n': n});
-  higherOrderSolution(solution, n, 0, solution.hasAnyRookConflictsOn, findNSolutionCallback);
+  solution.higherOrderSolution(n, 0, solution.hasAnyRookConflictsOn, findNSolutionCallback);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution.rows();
 };
@@ -24,7 +24,7 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var solution = new Board({'n': n});
   var solutionCount = 0;
-  higherOrderSolution(solution, n, 0, solution.hasAnyRookConflictsOn, function () {
+  solution.higherOrderSolution(n, 0, solution.hasAnyRookConflictsOn, function () {
     solutionCount++;
     return;
   });
@@ -35,7 +35,7 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var solution = new Board({'n': n});
-  higherOrderSolution(solution, n, 0, solution.hasAnyQueensConflicts, findNSolutionCallback);
+  solution.higherOrderSolution(n, 0, solution.hasAnyQueensConflicts, findNSolutionCallback);
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution.rows();
 };
@@ -44,7 +44,7 @@ window.findNQueensSolution = function(n) {
 window.countNQueensSolutions = function(n) {
   var solution = new Board({'n': n});
   var solutionCount = 0;
-  higherOrderSolution(solution, n, 0, solution.hasAnyQueenConflictsOn, function () {
+  solution.higherOrderSolution(n, 0, solution.hasAnyQueenConflictsOn, function () {
     solutionCount++;
     return;
   });
@@ -58,17 +58,17 @@ var findNSolutionCallback = function() {
   return true;
 };
 
-window.higherOrderSolution = function(solution, n, row, conflictFunction, callback) {
+window.higherOrderSolution = function(n, row, conflictFunction, callback) {
   if (row === n) {
     return callback();
   }
   for (var i = 0; i < n; i++) {
-    solution.togglePiece(row, i);
-    if (!conflictFunction.call(solution, row, i)) {
-      if (higherOrderSolution(solution, n, row + 1, conflictFunction, callback)) {
+    this.togglePiece(row, i);
+    if (!conflictFunction.call(this, row, i)) {
+      if (this.higherOrderSolution(n, row + 1, conflictFunction, callback)) {
         return true;
       }
     }
-    solution.togglePiece(row, i);
+    this.togglePiece(row, i);
   }
 };
